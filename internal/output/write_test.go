@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -42,8 +43,12 @@ func TestWriteCreatesFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("stat: %v", err)
 	}
-	if mode := info.Mode().Perm(); mode != 0o644 {
-		t.Errorf("mode = %o, want 644", mode)
+	// os.Chmod on Windows only toggles the read-only bit; the perm bits
+	// read back as 0666 there no matter what was requested.
+	if runtime.GOOS != "windows" {
+		if mode := info.Mode().Perm(); mode != 0o644 {
+			t.Errorf("mode = %o, want 644", mode)
+		}
 	}
 }
 

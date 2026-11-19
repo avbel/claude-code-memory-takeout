@@ -127,8 +127,16 @@ func TestPath(t *testing.T) {
 	}
 
 	t.Run("tilde flag", func(t *testing.T) {
-		if p := Path("~/cfg.toml", envOf(nil), "darwin"); strings.Contains(p, "~") {
-			t.Errorf("flag path not expanded: %q", p)
+		home, err := os.UserHomeDir()
+		if err != nil {
+			t.Skipf("no home dir: %v", err)
+		}
+		// Comparing against the home join, not "no ~ in the string":
+		// the Windows runner's temp path contains the 8.3 name
+		// RUNNER~1, whose ~ would defeat that heuristic.
+		want := filepath.Join(home, "cfg.toml")
+		if p := Path("~/cfg.toml", envOf(nil), "darwin"); p != want {
+			t.Errorf("flag path = %q, want %q", p, want)
 		}
 	})
 	t.Run("process env", func(t *testing.T) {
