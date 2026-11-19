@@ -1,0 +1,47 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - govet
+    - staticcheck
+    - errcheck
+    - gosec
+    - revive
+    - modernize
+  settings:
+    revive:
+      rules:
+        # All packages are internal; exported-symbol doc rules are noise.
+        - name: exported
+          disabled: true
+  exclusions:
+    generated: lax
+    rules:
+      - path: _test\.go
+        linters:
+          - gosec
+      # Memory readers open fact files by name from the memory dir, output
+      # writes a temp file next to its target, and config reads the TOML
+      # path; every one of them takes a variable file path by design.
+      - path: internal/(memory|locate|output|config)
+        linters:
+          - gosec
+        text: "G304:"
+      # The generated MEMORY.md is a committed repo file: 0644 is the
+      # required mode (the temp file is created 0600 and widened only
+      # right before the atomic rename).
+      - path: internal/output
+        linters:
+          - gosec
+        text: "G302:"
+      # The project dir is the user-supplied positional argument; os.Stat
+      # on it is the point of the tool.
+      - path: cmd/
+        linters:
+          - gosec
+        text: "G703:"
+
+formatters:
+  enable:
+    - gofmt

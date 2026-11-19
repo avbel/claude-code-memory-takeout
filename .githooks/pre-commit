@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+staged="$(git diff --cached --name-only)"
+if ! grep -qE '\.(go)$|^go\.(mod|sum)$|^\.golangci(\.yml|-version)$' <<<"$staged"; then
+    exit 0
+fi
+
+exec scripts/lint.sh
