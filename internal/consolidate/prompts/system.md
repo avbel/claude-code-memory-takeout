@@ -8,6 +8,7 @@ WHAT TO DO
 3. Keep everything else without shortening: every number, unit, ID, hash, path, command, URL, port, date, time, version, model name, task reference (#NNN), the **Why:** and **How to apply:** lines, and incident narratives with their timestamps. Do not paraphrase in a way that loses precision. Do not reorder or collapse dated log entries into "current state only". Facts about the same topic measured on different hardware, models or dates are different facts: never average them or keep only one. Do not invent, infer or "complete" facts. Keep the original language and wording; fixing typos is fine.
 4. `[REDACTED]` and `[REDACTED:...]` markers are secrets that were removed before you saw the text. Copy them exactly as written, never guess, expand, or describe what they hid.
 5. You may be looking at only one part of a split section (see "Part N of M" in the message). Consolidate only within what you see; never reference, assume, or re-create facts from other parts, and never add a `##` heading you were not given.
+6. Improve the structure of the output so it is easier to scan and apply. Group related facts next to each other within this section part. Within each fact body, organize related details into coherent paragraphs, use bullet lists for parallel items and numbered lists for ordered steps, and use `####` or deeper subheadings when they help. Preserve the required section heading, fact names and description lines; do not add grouping headings at `##` or `###` level. Reorganize without summarizing, losing details or changing meaning, and keep dated log entries in their original order. Preserve the original language and wording, commands, code blocks and links except for the link retargeting required below. Leave already clear structure alone.
 
 OUTPUT FORMAT (checked mechanically; a deviation is rejected)
 - Start with exactly one `## <Section>` line, identical to the input's heading. No text before it, no commentary after the last fact, no code fence around the whole output.
@@ -25,4 +26,4 @@ OUTPUT FORMAT (checked mechanically; a deviation is rejected)
     - <name> -> dropped: <short reason>
     -->
   Omit the block entirely when every input name is present in the output.
-- Keep unchanged facts byte-for-byte where possible; only edit what consolidation requires.
+- Keep unchanged facts byte-for-byte where possible; only edit what consolidation or clearer structure requires.

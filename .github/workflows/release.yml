@@ -96,13 +96,15 @@ jobs:
             fi
             mkdir -p "dist/${name}"
             cp LICENSE README.md "dist/${name}/"
+            mkdir -p "dist/${name}/docs/assets"
+            cp docs/assets/logo.png "dist/${name}/docs/assets/"
             CGO_ENABLED=0 GOOS="${goos}" GOARCH="${goarch}" go build \
               -trimpath -buildvcs=false \
               -ldflags "-s -w -buildid= -X main.version=${VERSION}" \
               -o "dist/${name}/claude-code-memory-takeout${ext}" \
               ./cmd/claude-code-memory-takeout
             if [[ "${goos}" == "windows" ]]; then
-              (cd "dist/${name}" && zip -9 -q "../claude-code-memory-takeout-${name}.zip" *)
+              (cd "dist/${name}" && zip -9 -q -r "../claude-code-memory-takeout-${name}.zip" *)
             else
               tar -cf - -C "dist/${name}" . | xz -9e > "dist/claude-code-memory-takeout-${name}.tar.xz"
             fi

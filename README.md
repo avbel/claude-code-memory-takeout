@@ -1,5 +1,9 @@
 # claude-code-memory-takeout
 
+<p align="center">
+  <img src="docs/assets/logo.png" alt="Claude Code Memory Takeout — Claude Code mascot with a takeout box of memory files" width="600">
+</p>
+
 Collect the [Claude Code](https://claude.com/claude-code) auto-memory of a project into one `MEMORY.md` that can be committed, shared and read by any teammate or agent — on any machine.
 
 Claude Code keeps an auto-memory per project in `<claude>/projects/<slug>/memory/*.md` — one file per fact, written across sessions: decisions, measurements, incidents, preferences. Those facts are invisible from the repository: a teammate, another machine or another agent never sees them. This tool checks them out:
@@ -122,6 +126,9 @@ OpenAI-compatible chat/completions endpoint with a strict output contract:
 
 - duplicates and near-duplicates are merged, keeping the union of their
   details, with dated history preserved;
+- the model is asked to improve readability by grouping related facts and
+  organizing their bodies with paragraphs, lists and deeper subheadings,
+  preserving details and the order of dated log entries;
 - a fact is dropped only when fully superseded, trivial, or an empty
   placeholder;
 - the answer is validated mechanically — the exact section heading, only
